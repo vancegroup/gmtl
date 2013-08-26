@@ -31,7 +31,7 @@ GMTL itself is header-only, so it needs no building.
 
 Optional dependencies:
 
-- SCons 0.96: If you want to build tests or the Python binding, until we've
+- SCons 2.0: If you want to build tests or the Python binding, until we've
   replaced the build system with a CMake build system
 
 - CppUnit: for the tests. At one point a patched version was used from VR Juggler.
