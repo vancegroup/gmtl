@@ -11,11 +11,12 @@ efforts of many previous math library efforts. GMTL gives the graphics
 programmer several core math types and a rich library of graphics/math
 operations on those types.
 
-This repository is a "friendly fork" for maintenance purposes. GMTL is primarily
-used in [VR Juggler][] and related projects. The maintainers of this fork would
-recommend an alternate library, such as [Eigen][], for general-purpose matrix and
-vector math in new code.
+[This repository][repo] is a "friendly fork" for maintenance purposes. GMTL is
+primarily used in [VR Juggler][] and related projects. The maintainers of this fork
+would recommend an alternate library, such as [Eigen][], for general-purpose matrix
+and vector math in new code.
 
+[repo]: https://github.com/vancegroup/gmtl
 [VR Juggler]: http://vrjuggler.googlecode.com
 [Eigen]: http://eigen.tuxfamily.org/
 
