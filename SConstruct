@@ -132,11 +132,18 @@ def BuildDarwinEnvironment():
 
    CXX = os.environ.get("CXX", WhereIs('g++'))
 
-   ver_re = re.compile(r'gcc version ((\d+)\.(\d+)\.(\d+))')
+   gcc_ver_re = re.compile(r'gcc version ((\d+)\.(\d+)\.(\d+))')
+   clang_ver_re = re.compile(r'clang-(\d+)\.(\d+)\.(\d+)')
    (gv_stdout, gv_stdin, gv_stderr) = os.popen3(CXX + ' -v')
    ver_str = gv_stderr.read()
 
-   match_obj = ver_re.search(ver_str)
+   match_obj = gcc_ver_re.search(ver_str)
+   # Assume gcc by default
+   comp_gcc = True
+   # If gcc is not found search for clang
+   if match_obj is None:
+       comp_gcc = False
+       match_obj = clang_ver_re.search(ver_str)
 
    LINK = CXX
    CXXFLAGS = ['-ftemplate-depth-256', '-DBOOST_PYTHON_DYNAMIC_LIB',
@@ -149,12 +156,14 @@ def BuildDarwinEnvironment():
    compiler_major_ver = int(match_obj.group(2))
    compiler_minor_ver = int(match_obj.group(3))
 
-   # GCC 4.0 in Mac OS X 10.4 and newer does not have -fcoalesce-templates.
-   if compiler_major_ver < 4:
-      CXXFLAGS.append('-fcoalesce-templates')
-   else:
-      if compiler_minor_ver < 2:
-         CXXFLAGS += ['-Wno-long-double', '-no-cpp-precomp']
+   # Issues related to GCC
+   if comp_gcc:
+       # GCC 4.0 in Mac OS X 10.4 and newer does not have -fcoalesce-templates.
+       if compiler_major_ver < 4:
+           CXXFLAGS.append('-fcoalesce-templates')
+       else:
+           if compiler_minor_ver < 2:
+               CXXFLAGS += ['-Wno-long-double', '-no-cpp-precomp']
 
    SHLIBSUFFIX = distutils.sysconfig.get_config_var('SO')
    SHLINKFLAGS = ['-bundle']
